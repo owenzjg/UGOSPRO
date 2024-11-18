@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://www.ugospro.com</id>
+    <title>UGOS-Pro</title>
+    <updated>2024-11-18T15:21:50.182Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://www.ugospro.com"/>
+    <link rel="self" href="https://www.ugospro.com/atom.xml"/>
+    <subtitle>欢迎访问本站，本站非绿联官方博客，属爱好者个人搭建，如有任何NAS相关问题请在文章留言，期待与您的交流~🎅</subtitle>
+    <logo>https://www.ugospro.com/images/avatar.png</logo>
+    <icon>https://www.ugospro.com/favicon.ico</icon>
+    <rights>All rights reserved 2024, UGOS-Pro</rights>
+    <entry>
+        <title type="html"><![CDATA[[Docker]部署uptime-kuma，定时检测网站连通性]]></title>
+        <id>https://www.ugospro.com/post/docker-uptimekuma/</id>
+        <link href="https://www.ugospro.com/post/docker-uptimekuma/">
+        </link>
+        <updated>2024-11-18T14:56:50.000Z</updated>
+        <content type="html"><![CDATA[<p>众所周知，国内访问部分网站的连通性非常不好，我们有时有想要检测自己的网络环境，观察自己所处地区访问网站的连通率，如GitHub。另外，如果你搭建自己的网站，想要检测自己网站的连通性，都可以按照这篇教程在nas上搭建一个uptime-kuma.</p>
+<p>最后的页面会是这样的。<br>
+<img src="https://www.ugospro.com/post-images/1731943219558.png" alt="" loading="lazy"></p>
+<h1 id="部署">部署</h1>
+<p>由于这个docker不需要配置任何的变量，后期也不需要做任何更改，所以建议使用docker-compose方案安装。</p>
+<p>打开绿联nas客户端，点击docker应用，点击新建。<br>
+<img src="https://www.ugospro.com/post-images/1731942879763.png" alt="" loading="lazy"></p>
+<p>名称可以随便填写，yaml的内容请复制</p>
+<pre><code class="language-yaml">version: '3'
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma
+    container_name: uptime-kuma
+    volumes:
+      - ./share/Container/uptime-kuma:/app/data  # 冒号左侧文件目录可修改
+    ports:
+      - 8963:3001  # 冒号左侧端口号可修改
+    restart: always
+</code></pre>
+<p><img src="https://www.ugospro.com/post-images/1731942965587.png" alt="" loading="lazy"><br>
+点击立即部署，等待即可。</p>
+<h1 id="配置">配置</h1>
+<p>部署完成后打开网站</p>
+<p><img src="https://www.ugospro.com/post-images/1731943053185.png" alt="" loading="lazy"><br>
+打开后进行第一次用户名设置，这个大家随意即可。<br>
+<img src="https://www.ugospro.com/post-images/1731943072220.png" alt="" loading="lazy"></p>
+<p>点击“添加监控项”，建议修改方框内的内容，其他可以保持默认数据。当然，你也可以按照自己的需求配置。<br>
+<img src="https://www.ugospro.com/post-images/1731943171509.png" alt="" loading="lazy"></p>
+<p>完成后点击保存，大功告成。</p>
+<p>over～</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea+netlify加速]]></title>
+        <id>https://www.ugospro.com/post/gridea-github-netlify/</id>
+        <link href="https://www.ugospro.com/post/gridea-github-netlify/">
+        </link>
+        <updated>2024-11-04T15:07:02.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="引子">引子</h1>
+<p>      在前面一期<a href="/post/blog-by-gridea+github/">Gridea，一个小而美的博客梦想桥梁</a>中，我为大家介绍了如何利用gridea基于GitHub免费简单搭建个人博客，效果还是不错滴。但是日久见人心，日久见网速，大家发现GitHub的链接比过山车还刺激🎢，一会贼拉快一会贼拉慢。那应该如何解决呢，让我们一起来看一下吧！<br>
+      那就让我们开始吧，这一次，我们只需要准备一个鼠标和一个一个GitHub账号。</p>
+<h1 id="注意">注意</h1>
+<p>      由于我已经操作过一遍了，有些步骤可能没有图片和非常详细的文字叙述；由于某些关键步骤是在需要图片而又找不到，就使用了其他平台博客的文章，所有可能被采集的链接已经放在了参考资料一栏，请您知晓。</p>
+<h1 id="开始">开始</h1>
+<p>      首先进入<a href="https://app.netlify.com/signup">登录网页</a>，然后点击GitHub（国内GitHub网络不佳，如果加载不出来可以收藏一下换个时间接着操作），<br>
+<img src="https://www.ugospro.com/post-images/1673703589124.png" alt="" loading="lazy"><br>
+      嗯，后面的话就是关联认证，大家自行操作，还是比较简单的。<br>
+      关联认证后进入Netlify的后台页面，如下图，点击New site from Git<br>
+<img src="https://www.ugospro.com/post-images/1673703814915.png" alt="" loading="lazy"><br>
+      选择网站源码托管的代码仓库类型，支持Github、Gitlab以及Bitbucket，选择GitHub。<br>
+<img src="https://www.ugospro.com/post-images/1673703871501.png" alt="" loading="lazy"><br>
+      然后会进入Github的认证授权页面，点击Authorize Netlify by Netlify（国内GitHub网络不佳，如果加载不出来可以收藏一下换个时间接着操作）。<br>
+<img src="https://www.ugospro.com/post-images/1673703949287.png" alt="" loading="lazy"><br>
+      点击Only select repositories选择要授权的Github仓库，当然也可以直接选择授权所有仓库，这个授权在设置中可以改。<br>
+<img src="https://www.ugospro.com/post-images/1673704064804.png" alt="" loading="lazy"><br>
+      授权完成回到Netlify后台页面，选择我们刚刚授权的Github仓库继续。<br>
+<img src="https://www.ugospro.com/post-images/1673752254036.png" alt="" loading="lazy"><br>
+      下一步不需要更改任何设置。<br>
+<img src="https://www.ugospro.com/post-images/1673752285140.png" alt="" loading="lazy"><br>
+      稍等一会等待首次同步成功后，选择设置。<br>
+<img src="https://www.ugospro.com/post-images/1673752318521.png" alt="" loading="lazy"><br>
+      在图中位置更改域名。<br>
+<img src="https://www.ugospro.com/post-images/1673752339380.png" alt="" loading="lazy"><br>
+      在这个页面输入的名称就是你的域名，输入框下方有。<br>
+<img src="https://www.ugospro.com/post-images/1673752347590.png" alt="" loading="lazy"><br>
+      注意⚠️：如果显示如图字样，说明已经被注册过了，需要换一个。<br>
+<img src="https://www.ugospro.com/post-images/1673752405484.png" alt="" loading="lazy"><br>
+      但是在这种情况下，你点击文章是链接还是会跳回去，所以我们要在「gridea」-&gt;「远程」-&gt;「域名」里面填写刚才netlify你注册的网址就可以了。<br>
+<img src="https://www.ugospro.com/post-images/1673837232698.png" alt="" loading="lazy"></p>
+<h1 id="最后">最后</h1>
+<p>      最后开开心心的访问网站吧。<br>
+<img src="https://www.ugospro.com/post-images/1673752415192.png" alt="" loading="lazy"></p>
+<h1 id="强调说明">强调说明</h1>
+<p>      当然了，其实你也可以利用这个网站直接上传gridea生成的网站数据，我会在后期出一篇文章来说明，但是这样子不太靠谱，应为这个网站毕竟没有GitHub稳定，所以不推荐。如果实在需要这种方式，可以进入我的博客查看（如果没有找到说明我还没有更新，会尽快的！）</p>
+<h1 id="后续">后续</h1>
+<p>参考资料：<br>
+·<a href="https://zhuanlan.zhihu.com/p/347990778">vercel是什么神仙网站？ - 知乎</a><br>
+·<a href="https://www.cnblogs.com/37Y37/p/12551839.html">Github Pages访问太慢？通过Netlify免费加速 - ops-coffee - 博客园</a><br>
+·<a href="https://www.zhihu.com/question/346352804/answer/2306827719">如何解决国内访问GitHub Pages速度过慢的问题？ - 知乎</a><br>
+·<a href="https://zhuanlan.zhihu.com/p/55252024">手把手教你使用Netlify部署博客及部署自动化 - 知乎</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea+网站访问数据]]></title>
+        <id>https://www.ugospro.com/post/gridea-visit-number/</id>
+        <link href="https://www.ugospro.com/post/gridea-visit-number/">
+        </link>
+        <updated>2024-11-04T15:06:27.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="引子">引子</h1>
+<p>      自己搭建一个博客至少得指导你的博客访问量怎么样吧！之前想着用开源的利用GitHub搭建，但是后来发现网上没有什么非常简单的教程，所以后来就用了百度统计，发现效果还不错，就用了。<br>
+      下面就让我们开始吧</p>
+<h1 id="正文">正文</h1>
+<p>      首先，<a href="https://tongji.baidu.com">戳一下我</a>（搜百度统计也可以）。然后点击「进入产品」-&gt;「百度账号」。这里有账号则登录，无账号则注册。<br>
+<img src="https://www.ugospro.com/post-images/1673770022420.png" alt="" loading="lazy"><br>
+      进入过后按照指引打开这个窗口后输入自己博客的地址。</p>
+<blockquote>
+<p>注意⚠️：如果你使用了我博客加速那篇文章，那么请输入netlify中你的博客的地址！</p>
+</blockquote>
+<p><img src="https://www.ugospro.com/post-images/1673877512338.png" alt="" loading="lazy"><br>
+      进入过后，按照图中的位置点击，找到统计代码，复制下来<br>
+<img src="https://www.ugospro.com/post-images/1673770308796.png" alt="" loading="lazy"><br>
+      接下来，我们打开gridea根目录（可以在gridea左下角的位置点击设置查看，<a href="/post/Gridea-and-blog/">往期文章</a>有详细介绍，这里不过多描述。）<br>
+      按照以下的目录打开：「gridea」-&gt;「thems」-&gt;「你的主题」-&gt;「templates」-&gt;「includes」-&gt;「header」<br>
+      在你的代码的最后面加入刚才复制的代码，然后保存关上。<br>
+      重启gridea后点击「同步」，等待同步成功（国内GitHub不稳定，请耐心多重复几次）<br>
+      最后在百度刚才查询链接的地方按照图片点击查看代码安装情况。<br>
+<img src="https://www.ugospro.com/post-images/1673771618411.png" alt="" loading="lazy"><br>
+      安装好了过后就可以查看数据了。（只能查看安装好后的数据，可能要等30分钟有人访问过后才有数据）</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea+utterances评论区系统]]></title>
+        <id>https://www.ugospro.com/post/Gridea-utterances/</id>
+        <link href="https://www.ugospro.com/post/Gridea-utterances/">
+        </link>
+        <updated>2024-11-04T14:54:54.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="引子">引子</h1>
+<p>      或许很多人看到这个都非常的不解，gridea自带的不香吗，主题自带的不香吗，非得用这个干嘛<br>
+      <s>原因：我想怎么了</s><br>
+      其实原因很简单：<br>
+      1. gitalk需要配置Issue，我调试了半天就是没有搞好，还何谈写文章？<br>
+      1. 而主题自带的 Valine需要实名认证，对于我来说就是写一个禁止入内。</p>
+<p>      utterances也是一款基于GitHub的评论系统，其实它就相当于把在GitHub问题一栏中存储评论，需要的时候爬过来。也就是说，你在仓库里面点击问题按钮还可以看到你的评论集合。<br>
+      当然，如果你有手机号和支付宝的话，还是推荐Valine，因为utterances的输入框在评论区的最下面（看看我博客的<s>残样子</s>就知道了）<br>
+      行了，废话不多说，开始！</p>
+<h1 id="准备工作">准备工作</h1>
+<h2 id="gridea打开相应文件">gridea打开相应文件</h2>
+<p>      不会还有人不知道站点源文件在那吧！<br>
+      嗯，点击「gridea」最左下角的设置符号-&gt;「站点源文件目录」照着这个打开就可以了<br>
+      打开站点源文件过后我们再按照一下打开相应文件（最后一个文件打开的时候记事本🗒️什么的都是可以的<br>
+      「themes」-&gt;「你的主题」-&gt;「templates」-&gt;「post.ejs」<br>
+      然后把它放在哪里，<s>这辈子都不用管了</s></p>
+<h2 id="安装github应用">安装GitHub应用</h2>
+<p>      我推荐的东西都是比较方便的，<a href="https://github.com/apps/utterances">点击这个链接</a>就可以跳转到个GitHub里面了，授权你的博客在的仓库就可以了。<br>
+      由于我<s>手快脑子慢</s>，操作的时候忘了截图了，大家就自己操作吧，操作的还是比较简单的，实在不行一路确定也不是不可以，但还是建议授权自己博客在的仓库就可以了。<br>
+      好了，你的准备工作就结束了。</p>
+<h1 id="安装评论系统">安装评论系统</h1>
+<h2 id="获取代码">获取代码</h2>
+<p>      首先点击<a href="https://utteranc.es/">这个网址</a>,里面英文比较多，所以我已经给你总结好了，做好的评论区是浅色主题，问题也可以在GitHub仓库的问题中以你文章的标题查看到。（需要其他主题或者特殊设置的可以在评论区问我或者自己用浏览器翻译页面）<br>
+      首先，复制下面的代码，把里面的仓库名称改成你的，按照我的模版改，是 用户名/用户名.github.io</p>
+<pre><code class="language-html">&lt;script src=&quot;https://utteranc.es/client.js&quot;
+				repo=&quot;owenzjg/owenzjg.github.io&quot;
+				issue-term=&quot;title&quot;
+				theme=&quot;github-light&quot;
+				crossorigin=&quot;anonymous&quot;
+				async&gt;
+		&lt;/script&gt;
+</code></pre>
+<p>      修改好代码过后，打开第一步的那个「post.ejs」，然后在我的这个位置插入代码（我的代码修改过，可能和你们有几行不一样，不用在意）<br>
+      注：我在前面更换主题的文章说过，我有的是「pure」主题，其他主题应该相差不大，有问题可以留言区问我。而且可以多试几次，上下调整几行，就说不定可以了！<br>
+<img src="https://www.ugospro.com/post-images/1730732260134.png" alt="" loading="lazy"><br>
+      然后保存后退出，在「Gridea」里面点击预览就可以了！<br>
+      好了，这个就到这里了，大家的留言区都做好了吗？</p>
+<h1 id="原理介绍">原理介绍</h1>
+<p>      这个的原理其实就是GitHub的每一个仓库都有提问模块，这个其实就相当于把提问模块搬到了你的博客里面，所以说你在GitHub里的那个仓库的issues也可以看到。而问题的标题我设置的是你网站的标题，其他的我都试过了，不太好，你也可以调整。如果你的网页是暗色模式，你也可以留言区问我我给你暗色模式的代码。</p>
+<h1 id="后续">后续</h1>
+<p>参考文献:<br>
+·<a href="https://garbageblog.github.io/utterances-help/">Gridea 安装utterances评论系统 | Garbage的方块小窝</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea+更换主题]]></title>
+        <id>https://www.ugospro.com/post/gridea-theme/</id>
+        <link href="https://www.ugospro.com/post/gridea-theme/">
+        </link>
+        <updated>2024-11-04T14:51:55.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="引子">引子</h1>
+<p>      如果你还没有安装gridea，请到我的博客里<a href="/post/gridea-and-blog/">查看</a>gridea的安装。<br>
+      在gridea的主题里面，你可以使用gridea自带的三个主题「fly」「note」「paper」。但是，怎么，我们怎么能局限在这3个主题里面呢？比如笔者现在用的就是「Pure」，现在我就教大家如何更换到「Pure」主题。那么其他主题也是类似的，大家可以自行模仿。在今后的其他博客指导中，我也都是以这个为例的。<br>
+      让我们开始吧！</p>
+<hr>
+<h1 id="正文">正文</h1>
+<p>      首先，我们转到<a href="https://open.gridea.dev/themes">Gridea官网主题板块</a>，找到自己喜欢的主题，点击下载按钮。图中画出来的是我用的主题。<br>
+<img src="https://www.ugospro.com/post-images/1673530937674.png" alt="" loading="lazy"><br>
+      我选择的这个博客是会跳转到一个GitHub仓库，按照途中的顺序点击后会无需登录下载⏬一个zip包（GitHub所有的仓库都是这样的，不登录，下zip）。<br>
+<img src="https://www.ugospro.com/post-images/1673536066212.png" alt="" loading="lazy"><br>
+      下载到本地后，我们解压，然后打开Gridea，按照下方两个图片查看存储在你本机的哪里。<br>
+<img src="https://www.ugospro.com/post-images/1673533419652.png" alt="" loading="lazy"><br>
+<img src="https://www.ugospro.com/post-images/1673533426626.png" alt="" loading="lazy"><br>
+      打开这个文件夹后，点开里面的「themes」<br>
+<img src="https://www.ugospro.com/post-images/1673536153237.png" alt="" loading="lazy"><br>
+      将解压后的文件复制进去，然后重启一下Gridea（不会的也可以关机处理）就可以在「主题」中更换了！简单吗？<br>
+<img src="https://www.ugospro.com/post-images/1673536248621.png" alt="" loading="lazy"><br>
+      本文就暂时到这里了，有什么问题可以留言，评论，安全运营……更多内容在本博客持续更新。如果愿意可以收藏本站哦！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea+底部显示安全运营多少天]]></title>
+        <id>https://www.ugospro.com/post/gridea-safe-day/</id>
+        <link href="https://www.ugospro.com/post/gridea-safe-day/">
+        </link>
+        <updated>2024-11-04T14:46:01.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="引言">引言</h1>
+<p>      如果你细心，可以看到我的网站下方有一个“安全运营多少天”的标志，羡慕吗，<s>羡慕也不告诉你</s>。那现在我就给大家分享一下方法。<br>
+<img src="https://www.ugospro.com/post-images/1673693002733.png" alt="" loading="lazy"><br>
+      首先你可以选择两种模式，一个时只有显示天数，还有一个就是显示精确到秒并且秒还在一秒秒的变化。<br>
+      怎么样，选择好了吗，开始吧。</p>
+<hr>
+<h1 id="准备工作">准备工作</h1>
+<h2 id="准备网站建立时间">准备网站建立时间</h2>
+<p>      首先，你要准备好你的博客建立的日期，如果你只显示天数，那就准备建立的天数即可；如果你要显示到秒，你至少也要准备你的网站建立的时间到分。<br>
+      那到哪里去寻找这个呢？建议找到gridea文件存储的地方，前面的gridea建立网站中有，「最左下方设置按钮」-&gt;「站点源文件路径」，按照里面的路径打开这个文件夹，「右键」看「创建日期」即可找到。当然，你有别的获取途径我也不反对。</p>
+<h2 id="打开到相关文件夹">打开到相关文件夹</h2>
+<p>      现在，我们要打开「gridea」的源目录存储文件（每次都用到，不会的可以在「gridea」-&gt;「最左下角的图标」-&gt;「站点源文件路径」）<br>
+      然后，分别按照这个顺序打开gridea站点源文件的文件「themes」-&gt;「你的主题」-&gt;「templates」-&gt;「includes」-&gt;「footer.ejs」打开，记事本🗒️等都可以。</p>
+<hr>
+<h1 id="输入代码">输入代码</h1>
+<p>      首先先找到图中的位置（不同主题可能略有不同，我这里都是拿我的主题pure为例，可以多试几次，偏上了就往下挪一点试一下，反之亦然）<br>
+<img src="https://www.ugospro.com/post-images/1673849540788.png" alt="" loading="lazy"></p>
+<h2 id="只显示天数">只显示天数</h2>
+<p>      这个比较简单，在上图的位置输入：</p>
+<pre><code class="language-html">本站已安全运行了&lt;b&gt;&lt;strong&gt;&lt;script language = &quot;JavaScript&quot;type = &quot;text/javascript&quot; &gt;var urodz = new Date(&quot;10/16/2023&quot;);var now = new Date();var ile = now.getTime() - urodz.getTime();var dni = Math.floor(ile / (1000 * 60 * 60 * 24));document.write( + dni)&lt;/script&gt;&lt;/strong&gt;&lt;/b&gt;天
+</code></pre>
+<p>      其中data的地方可以修改一下，换成你自己的时间。</p>
+<h2 id="显示精确到秒数">显示精确到秒数</h2>
+<p>      首先，在刚才打开的文件的最上面添加这样的代码</p>
+<pre><code class="language-html">&lt;script&gt;
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        if (second &gt;= 365 * 24 * 3600) {
+            time[0] = parseInt(second / (365 * 24 * 3600));
+            second %= 365 * 24 * 3600;
+        }
+        if (second &gt;= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second &gt;= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second &gt;= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second &gt; 0) {
+            time[4] = second;
+        }
+        return time;
+    }&lt;/script&gt;&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2015, 07, 09, 6, 6, 6)).getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = currentTime[0] + '年' + currentTime[1] + '天'
+                + currentTime[2] + '时' + currentTime[3] + '分' + currentTime[4]
+                + '秒';
+        document.getElementById(&quot;htmer_time&quot;).innerHTML = currentTimeHtml;
+    }    setInterval(setTime, 1000);&lt;/script&gt;
+</code></pre>
+<p>      将settime中&quot;Date.UTC(2015, 07, 09, 6, 6, 6))&quot;改成你的时间。<br>
+      然后，在这一段上面那个的位置加入这一行代码</p>
+<pre><code class="language-html">网站稳定运行：&lt;span id=&quot;htmer_time&quot; style=&quot;color: black;&quot;&gt;&lt;/span&gt;
+</code></pre>
+<p>      颜色可以自己选。<br>
+      最后保存，退出，gridea预览，看看效果啦！</p>
+<h1 id="后续">后续</h1>
+<p>      本文编写时参考了一下文献资料：<br>
+·<a href="https://cloud.tencent.com/developer/article/1343942">显示网站运行时间 - 腾讯云开发者社区-腾讯云</a><br>
+·<a href="https://blog.csdn.net/qq_33019839/article/details/102574532">网站添加已运行多长时间的统计代码_qq_33019839的博客-CSDN博客</a><br>
+·<a href="https://blog.csdn.net/qq_36746815/article/details/104514408">JS给网站添加时间_添加已安全运营X年X天X秒_PS测的博客-CSDN博客</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea+Github搭建个人博客]]></title>
+        <id>https://www.ugospro.com/post/blog-by-gridea+github/</id>
+        <link href="https://www.ugospro.com/post/blog-by-gridea+github/">
+        </link>
+        <updated>2024-10-28T15:21:51.000Z</updated>
+        <content type="html"><![CDATA[<p>备注：本文叙述操作过程非常详细，会稍现冗长，可以适当的跳读。</p>
+<h1 id="引子">引子</h1>
+<p>      相信大家应该已经非常了解GitHub pages了，他是一个基于github的免费静态博客平台，可以供大部分对博客感兴趣但是有不想花钱的人使用。GitHub pages的搭建非常简单，可以快速搭建一个简洁而不失优雅的blog，网络上也有大量的教程。但是GitHub pages的管理需要很高的技术含量，需要会使用gite。在<a href="https://link.zhihu.com/?target=https%3A//pages.github.com/">官方文档</a>中，你需要经历繁琐的步骤才可以增删修改文章或版面。那对于那些想更便捷和优雅的操作 Github Pages 人们来说，我郑重向大家推荐这款工具 Gridea 。</p>
+<hr>
+<h1 id="介绍">介绍</h1>
+<p>      这里先给大家整体感知一下gridea的效果和后台，如果你觉的还不错的话，可以接着往下看，安装的过程非常简单。<br>
+      首先，说明一下，gridea的首页有博客网页的展示，我这里选用的是pure主题，如果想看效果就<a href="https://open.gridea.dev/themes">直接到官方链接看一下</a>,点击每一个图片旁边的小眼睛就可以啦！<br>
+      那我们就直接上后台的图片啦！<br>
+<img src="https://www.ugospro.com/post-images/1673432229257.png" alt="" loading="lazy"><br>
+<img src="https://www.ugospro.com/post-images/1673432254949.png" alt="" loading="lazy"><br>
+      其实还是非常方便的啦！让我们开始吧👊</p>
+<hr>
+<h1 id="安装和注册">安装和注册</h1>
+<p>      首先，我们需要一个<a href="https://github.com/">GitHub</a>账号。国内的GitHub访问有可能会有一点慢，可以尝试中午、早晨这样的人少的时间段访问，或者耐心等待！<br>
+      打开<a href="https://github.com/">GitHub官网</a>后，点击右上角的sign in，就会自动跳转到注册页面，根据提示输入邮箱，密码和用户名。是否接受公告随个人喜好回答即可。最后完成人机验证，<s>我笨到没看懂什么意思</s> 。然后在你邮箱中输入验证吗即可，<s>我瞎输入的邮箱怎么办</s>。<br>
+      好了，你的GitHub账号准备完了！<br>
+      随后安装Gridea。Gridea的安装非常简单，到<a href="https://open.gridea.dev/#started">Gridea的官网</a>就可以下载了<br>
+（可以选择 gitee 国内下载源，速度稍微快一些）</p>
+<hr>
+<h1 id="准备github仓库和token">准备GitHub仓库和token</h1>
+<p>      这一步是唯一有一点点技术含量的地方，但是非常简单，<s>我都会</s>。我们先点击图中的位置新建一个仓库，用来存储你的博客源代码。<br>
+<img src="https://www.ugospro.com/post-images/1673494884888.png" alt="" loading="lazy"><br>
+      然后，按照图里面的步骤填写<br>
+<img src="https://www.ugospro.com/post-images/1673506417243.png" alt="" loading="lazy"><br>
+      创建好了之后，我们就来准备token。那什么是GitHub token呢？他其实类似于你的密码，你可以调整这个密码对应的权限。那这个token建议是时效90天，90天后可以按照这个操作过程再次操作，这样更加安全一些。<br>
+      那为了大家能以后都找到这个地址，我不直接给链接，而是告诉大家操作过程。「右上角自己的头像右边的小箭头」→ 「Settings」→ 「Developer settings」<br>
+<img src="https://www.ugospro.com/post-images/1673506430694.png" alt="" loading="lazy"><br>
+再依次选择 「Developer settings」→ 「Personal access tokens」→ 「Generate new token」<br>
+<img src="https://www.ugospro.com/post-images/1673506443402.png" alt="" loading="lazy"><br>
+      名字起一个自己以后可以看懂的，说明这个 token 是用来干什么的。token 的权限我们只选择 Repo，更安全🔐。<br>
+<img src="https://www.ugospro.com/post-images/1673506456272.png" alt="" loading="lazy"><br>
+      申请成功后，网页上会有数字 + 字母的信息，这个就是 Token，我们一定要保存好，关掉网页后就没有了！后面的配置中我们会用到。<br>
+<img src="https://www.ugospro.com/post-images/1673506696639.png" alt="" loading="lazy"></p>
+<blockquote>
+<p>后期当你死活也同步不成功后，你可以考虑一下是否是你的token过期了。<s>别问我怎么知道的，血的教训</s></p>
+</blockquote>
+<hr>
+<h1 id="大功告成">大功告成</h1>
+<p>      回到「Gridea」-&gt;「远程」<br>
+<img src="https://www.ugospro.com/post-images/1673507088889.png" alt="" loading="lazy"><br>
+域名：Github Pages 对应的域名（例如：https://owenzjg.github.io）<br>
+仓库：你的静态文件存放的仓库（例如：http://owenzjg.github.io ）<br>
+分支：你的 Github Pages 对应的分支（例如：master 或 gh-pages）<br>
+用户名：仓库所属用户的用户名（通常就是你的 Github 账号的昵称，例如：owenzjg）<br>
+邮箱：Git 推送时使用的邮箱（通常就是你的 Github 账号的邮箱，例如：**********@qq.com）<br>
+Token: Git 推送时需要的 Token，用来向 Github 提交构建后的文件 这里的 token 就是 第三步 申请的 Github tokens<br>
+CNAME: 可通过这个【可选项】配置你自己的域名<br>
+      填写上面的信息后，点击 「检测远程连接」 按钮（耐心等待），如果提示 「远程连接成功」 那就 ok 啦～<br>
+      点击同步就可以将你的文章同步到GitHub了，预览为本地预览。第一次同步比较慢，国内GitHub有时链接不稳定，同步失败过一会就好了。（前提是「远程连接成功」）<br>
+      到你的用户名.github.io去访问吧！</p>
+<h1 id="美化">美化</h1>
+<blockquote>
+<p>后续为你的博客添加评论、统计等功能，请点击网站上方「专题」查看。</p>
+</blockquote>
+<hr>
+<h1 id="后续">后续</h1>
+<p>本文撰写时参考了以下文献：<br>
+·<a href="https://zhuanlan.zhihu.com/p/64034679">Gridea 一个小而美的静态博客写作客户端 - 知乎</a><br>
+·<a href="https://zhuanlan.zhihu.com/p/385692707">快速上手 Gridea，实现你小小的博客梦想！ - 知乎</a><br>
+·<a href="https://open.gridea.dev/gridea-start/">🤗 快速上手 | Gridea</a><br>
+·<a href="https://xgmm.me/post/gridea-pei-zhi-gitalk-ping-lun-xi-tong/">Gridea配置Gitalk评论系统 |</a><br>
+·<a href="https://blog.csdn.net/qq_38463737/article/details/120288329">Gridea 配置Gitalk 的异常：Error Bad credentials 和 Error Not Found_集电极的博客-CSDN博客</a><br>
+·<a href="https://blog.csdn.net/qq_45394976/article/details/127678924">Gridea 同步遇到错误_gridea同步失败_lovely days的博客-CSDN博客</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea+Netlify搭建个人博客]]></title>
+        <id>https://www.ugospro.com/post/blog-by-gridea+netlify/</id>
+        <link href="https://www.ugospro.com/post/blog-by-gridea+netlify/">
+        </link>
+        <updated>2024-10-27T14:52:32.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="题记">题记</h1>
+<p>搭建博客的具体原因和这个专题的系列文章，大家可以走<a href="/post/Gridea-and-blog/">这里</a>看。</p>
+<p>网上大部分关乎gridea的文章，都是配合GitHub page搭建的，当然，本博客也有<a href="/post/blog-by-gridea+github/">这样的教程</a>。可是，对于国内的网络用户来说，netlify是最方便的解决方案。所以，如果你没有极致的访问速度的要求，并且要求gridea客户端使用流畅的话，我建议你使用netlify搭建博客，也就是本文。</p>
+<h1 id="效果">效果</h1>
+<p>搭建的最终效果就是你可以拥有一个自定义域名的博客网站，样式可以完全与本站相同，当然，也有主题供您选择。</p>
+<p>另外，在电脑本地，将会有这样的一个客户端，可以用markdown自由的编辑你的博文，拥有清晰的ui界面<br>
+<img src="https://www.ugospro.com/post-images/1730041216176.png" alt="" loading="lazy"></p>
+<p>如果你对安全的要求比较高，可以在完成所有步骤后按照文末的 用绿联nas定时备份 来备份你的博客。当然，如果你已经使用了 Mac时间机器 备份，那么这样做毫无必要。</p>
+<h1 id="准备工作">准备工作</h1>
+<p>首先，你需要一个域名，不过这里不展开赘述，你可以通过这篇文章查看如何通过腾讯云注册域名。当然，你也可以不购买域名，但是你的博客最终的域名将会是这样的 &quot;****.netlify.app&quot; ，并且有访问时断时续的风险。</p>
+<p>然后，你需要下载 <a href="https://open.gridea.dev">gridea客户端</a> ，下拉到网页的最下端就可以选择客户端。下载过程可能有些漫长，需要耐心的等待。您可以通过nas里的“下载中心”，让nas先慢慢下载。</p>
+<p>最后，你需要注册一个netlify账号。</p>
+<p>打开 <a href="https://app.netlify.com/signup">netlify</a> 官网，建议选择通过GitHub注册<br>
+<img src="https://www.ugospro.com/post-images/1730041860277.png" alt="" loading="lazy"><br>
+输入GitHub的账号和密码，就可以自动登入。</p>
+<p>Tips:如果你还不知道什么是GitHub，建议你注册一个GitHub账号。</p>
+<figure data-type="image" tabindex="1"><img src="https://www.ugospro.com/post-images/1730041904450.png" alt="" loading="lazy"></figure>
+<p>输入完账号密码后，点击 sign in 即可登录完毕。</p>
+<h1 id="创建项目和密钥">创建项目和密钥</h1>
+<p>按照图示创建一个新的项目。</p>
+<figure data-type="image" tabindex="2"><img src="https://www.ugospro.com/post-images/1730042038399.png" alt="" loading="lazy"></figure>
+<p>随便上传一个文件夹上去，文件夹的内容并不重要，后面都会被替换掉，所以，随手就好<br>
+<img src="https://www.ugospro.com/post-images/1730042135153.png" alt="" loading="lazy"></p>
+<p>打开设置<br>
+<img src="https://www.ugospro.com/post-images/1730042194379.png" alt="" loading="lazy"></p>
+<p>选择 general，复制项目id，保存，再点击 user setting<br>
+<img src="https://www.ugospro.com/post-images/1730042313320.png" alt="" loading="lazy"></p>
+<p>选择 applications ，创建api密钥<br>
+<img src="https://www.ugospro.com/post-images/1730042398331.png" alt="" loading="lazy"></p>
+<p>随意输入一个名字，密钥时长选择无限期，并创建密钥<br>
+<img src="https://www.ugospro.com/post-images/1730042448561.png" alt="" loading="lazy"></p>
+<p>复制密钥，保存<br>
+<img src="https://www.ugospro.com/post-images/1730042482366.png" alt="" loading="lazy"></p>
+<h1 id="在gridea中输入数据">在gridea中输入数据</h1>
+<p>在远程中选择netlify，域名先随意填写，后面再配置，填入刚才保存的id和密钥<br>
+<img src="https://www.ugospro.com/post-images/1730042590437.png" alt="" loading="lazy"></p>
+<h1 id="配置域名">配置域名</h1>
+<p>回到刚才配置的项目，你可以通过图示的方法进入<br>
+<img src="https://www.ugospro.com/post-images/1730042644567.png" alt="" loading="lazy"></p>
+<p>选择domain的配置，创建一个域名解析并输入你的域名<br>
+<img src="https://www.ugospro.com/post-images/1730042692842.png" alt="" loading="lazy"><br>
+创建完成后，复制这个网址并打开腾讯云域名的nds解析（其他运营商类似）<br>
+<img src="https://www.ugospro.com/post-images/1730042763447.png" alt="" loading="lazy"><br>
+在解析中按照图示配置国内国外两个解析，记录值填写刚才复制的域名。<br>
+<img src="https://www.ugospro.com/post-images/1730042891035.png" alt="" loading="lazy"></p>
+<p>稍等一会，半个小时后，解析就完成了。</p>
+<p>回到gridea，输入域名，结束！<br>
+<img src="https://www.ugospro.com/post-images/1730042976787.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+</feed>
